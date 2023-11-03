@@ -1,0 +1,22 @@
+{
+  "name": "dadn",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "NODE_ENV=development nodemon server.js",
+    "debug": "ndb server.js"
+  },
+  "dependencies": {
+    "@influxdata/influxdb-client": "^1.33.2",
+    "axios": "^1.6.0",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "http-errors": "~1.6.3",
+    "morgan": "~1.9.1",
+    "mqtt": "^5.1.4",
+    "ndb": "^0.2.4",
+    "pug": "^3.0.2"
+  }
+}

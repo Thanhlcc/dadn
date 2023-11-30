@@ -16,7 +16,8 @@ exports.toggle = async function (req, res) {
 		query.unit
 	);
 	const currentTime = Date.now();
-	const newData = !data[0]._value;
+	console.log(data);
+	const newData = data.length ? !data[0]._value : false;
 	const newPoint = new Point(req.feedName)
 		.tag('feed', req.feedName)
 		.booleanField('value', newData)

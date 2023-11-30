@@ -12,7 +12,7 @@ console.log('External Services set up successfully');
  *==========  Start Express web app===========
  */
 const port = process.env.PORT || 4000;
-const server = app.listen(port, process.env.HOST, () => {
+const server = app.listen(port, '0.0.0.0', process.env.HOST, () => {
 	console.log(`Listening on port ${port}`);
 });
 /**

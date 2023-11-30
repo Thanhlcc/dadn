@@ -1,23 +1,31 @@
 const express = require('express');
-const temperatureRoutes = require('./routes/temperatureRoutes');
-const humidityRoutes = require('./routes/humidityRoutes');
-const morgan = require('morgan')
-
+const morgan = require('morgan');
+const cors = require('cors');
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUI = require('swagger-ui-express');
+const measurementRoutes = require('./routes/measurementRoutes');
+const binaryDeviceRoutes = require('./routes/binaryDeviceRoutes');
+const { swaggerOptions } = require('./public/swagger-doc');
 const app = express();
+
+const swagerDocs = swaggerJsDoc(swaggerOptions);
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swagerDocs));
+
 /**
  * ==========Middlewares config===========
  */
+
 app.use(express.json());
-if(process.env.NODE_ENV === 'development'){
-    app.use(morgan('dev'))
+app.use(cors());
+if (process.env.NODE_ENV === 'development') {
+	app.use(morgan('dev'));
 }
 
 /**
  * =============Routes config===============
  */
-app.use('/temperatures', temperatureRoutes);
-app.use('/humidities', humidityRoutes);
-
+app.use('/measurements', measurementRoutes);
+app.use('/devices', binaryDeviceRoutes);
 /**
  * =============Exception Handler config===============
  */

@@ -35,6 +35,6 @@ process.on('SIGINT', () => {
 	});
 	server.close(() => {
 		console.log('Express server closed');
-		process.exit(0);
+		// process.exit(0);
 	});
 });

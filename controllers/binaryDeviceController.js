@@ -51,12 +51,11 @@ exports.subscribe = async function (req, res) {
 				query.end_time,
 				query.unit
 			);
-			console.log(data);
 			if (data.length === 0) {
 				res.flushHeaders();
 			} else {
 				const payload = new SsePayload({
-					value: data[0]._value,
+					data: data[0]._value,
 					timestamp: new Date(Date.parse(data[0]._time)).getTime(),
 				});
 				res.write(payload.value);

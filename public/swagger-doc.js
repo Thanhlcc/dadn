@@ -23,7 +23,7 @@ exports.swaggerOptions = {
 				},
 				Device: {
 					type: 'string',
-					enum: ['pumper', 'bulb'],
+					enum: ['pumper', 'bulb', 'door'],
 				},
 				Measurement: {
 					type: 'object',

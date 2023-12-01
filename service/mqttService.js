@@ -3,7 +3,7 @@ const Publisher = require('../utils/Publisher');
 const Subscriber = require('../utils/Subscriber');
 const { writeApi, queryApi } = require('./influxdbService');
 const { Point, IllegalArgumentError } = require('@influxdata/influxdb-client');
-const { SsePayload } = require('./sseSocket');
+const { Payload } = require('./sseSocket');
 
 class MqttService {
 	host = process.env.AIO_HOST;
@@ -72,6 +72,7 @@ class MqttService {
 				const currentTime = Date.now();
 				const measurement = topic.split('/').pop();
 				console.log(`Measurement: ${measurement}`);
+				console.log(`Message: ${message}`);
 				const newPoint = new Point(measurement).tag(
 					'feed',
 					measurement
@@ -89,7 +90,6 @@ class MqttService {
 				}
 				newPoint.timestamp(currentTime);
 				writeApi.writePoint(newPoint);
-				await writeApi.flush();
 				message = {
 					data: message.toString(),
 					timestamp: currentTime.toString(),
@@ -151,6 +151,7 @@ const feeds = [
 	process.env.AIO_BULB_FEED,
 	process.env.AIO_PUMPER_FEED,
 	process.env.AIO_MOIS_FEED,
+	process.env.AIO_DOOR_FEED,
 ];
 module.exports = new MqttService(
 	process.env.AIO_HOST,

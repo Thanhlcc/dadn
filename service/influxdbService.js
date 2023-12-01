@@ -24,7 +24,7 @@ const fetchDataIn = async (measurement, startTime, endTime, unit) => {
 
 	const flux_q = `
                 from(bucket: "dadn")
-          |> range(start: ${startTime}${unit}${
+          |> range(start: ${startTime}${startTime != 0 ? unit : ''}${
 		endTime ? `end: ${endTime}` : ''
 	})
           |> filter(fn: (r) => r["_measurement"] == "${measurement}")

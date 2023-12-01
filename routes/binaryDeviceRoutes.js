@@ -36,7 +36,6 @@ router.use('/:device', injectFeedName);
  *              description: end time for the timeframe **(must be a greater than start_time)**
  *              schema:
  *                  type: number
- *                  default: now()
  *              required: false
  *            - in: query
  *              name: unit

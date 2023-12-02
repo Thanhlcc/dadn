@@ -1,9 +1,8 @@
 const mqtt = require('mqtt');
 const Publisher = require('../utils/Publisher');
 const Subscriber = require('../utils/Subscriber');
-const { writeApi, queryApi } = require('./influxdbService');
+const { writeApi } = require('./influxdbService');
 const { Point, IllegalArgumentError } = require('@influxdata/influxdb-client');
-const { Payload } = require('./sseSocket');
 
 class MqttService {
 	host = process.env.AIO_HOST;

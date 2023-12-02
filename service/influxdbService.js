@@ -1,7 +1,6 @@
 const {
 	InfluxDB,
 	IllegalArgumentError,
-	DEFAULT_WriteOptions,
 } = require('@influxdata/influxdb-client');
 const connection = new InfluxDB({
 	url: process.env.INFLUX_URL,
@@ -18,12 +17,12 @@ const fetchDataIn = async (measurement, startTime, endTime, unit) => {
 		throw new IllegalArgumentError(
 			'InfluxDbService:fetchDateIn ==> require measurement parameter'
 		);
-	if (!startTime) startTime = '-7';
+	if (InfluxDB.units) if (!startTime) startTime = '-7';
 	if (!endTime) endTime = '';
 	if (!unit) unit = 'd';
 
 	const flux_q = `
-                from(bucket: "dadn")
+		from(bucket: "dadn")
           |> range(start: ${startTime}${startTime != 0 ? unit : ''}${
 		endTime ? `end: ${endTime}` : ''
 	})

@@ -135,6 +135,9 @@ function injectFeedName(req, res, next) {
 		case 'bulb':
 			req.feedName = process.env.AIO_BULB_FEED;
 			break;
+		case 'door':
+			req.feedName = process.env.AIO_DOOR_FEED;
+			break;
 	}
 	req.feedName = req.feedName.toLocaleLowerCase();
 	next();

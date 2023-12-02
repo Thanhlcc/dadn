@@ -68,12 +68,23 @@ exports.subscribe = async function (req, res) {
 };
 
 exports.getAll = async function (req, res) {
+	const avaiable_units = ['d', 'm', 's', 'custom_range'];
 	const query = req.query;
+	if (
+		Object.keys(query).length !== 0 &&
+		(query.start_time > query.end_time ||
+			!avaiable_units.includes(query.unit))
+	) {
+		res.status(404).json({
+			status: 'fail',
+			message: 'Invalid query param values',
+		});
+	}
 	const result = await fetchDataIn(
 		req.feedName,
-		query.start_time,
-		query.end_time,
-		query.unit
+		query.start_time || 0,
+		query.end_time || 0,
+		query.unit || 'd'
 	);
 	res.json({
 		status: 'success',

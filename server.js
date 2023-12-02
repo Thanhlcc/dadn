@@ -7,7 +7,6 @@ const { writeApi } = require('./service/influxdbService');
  * =========Start connection to external services==========
  */
 mqttService.connect();
-console.log('External Services set up successfully');
 /**
  *==========  Start Express web app===========
  */
@@ -35,6 +34,5 @@ process.on('SIGINT', () => {
 	});
 	server.close(() => {
 		console.log('Express server closed');
-		// process.exit(0);
 	});
 });

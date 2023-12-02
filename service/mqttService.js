@@ -32,8 +32,8 @@ class MqttService {
 		this.connection = mqtt.connect(host_address, {
 			...this.credentials,
 			clean: true,
-			keepalive: 1000,
-			reconnectPeriod: 1000,
+			// keepalive: 1000,
+			// reconnectPeriod: 1000,
 			connectTimeout: 30 * 1000,
 		});
 		const mqttClient = this.connection;

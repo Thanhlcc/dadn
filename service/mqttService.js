@@ -3,7 +3,7 @@ const Publisher = require('../utils/Publisher');
 const Subscriber = require('../utils/Subscriber');
 const { writeApi } = require('./influxdbService');
 const { Point, IllegalArgumentError } = require('@influxdata/influxdb-client');
-
+const { SsePayload } = require('../service/sseSocket');
 class MqttService {
 	host = process.env.AIO_HOST;
 	credentials = {
@@ -76,12 +76,13 @@ class MqttService {
 					'feed',
 					measurement
 				);
-				console.log(topic);
 				if (
 					topic.split('/').pop() ===
 						process.env.AIO_BULB_FEED.toLocaleLowerCase() ||
 					topic.split('/').pop() ===
-						process.env.AIO_PUMPER_FEED.toLocaleLowerCase()
+						process.env.AIO_PUMPER_FEED.toLocaleLowerCase() ||
+					topic.split('/').pop() ===
+						process.env.AIO_DOOR_FEED.toLocaleLowerCase()
 				) {
 					newPoint.booleanField('value', parseInt(message));
 				} else {
@@ -124,13 +125,11 @@ class MqttService {
 		return name.trim().toLowerCase();
 	}
 	publish(message, feedName) {
-		if (!this.is_valid_feed(feedName)) {
-			throw Error(
-				`MqttService::publish => unknown feed name ${feedName}`
-			);
-		}
-		const payload = new SsePayload(message);
-		this.connection.publish(payload, feedName);
+		feedName = MqttService.feed(this, feedName);
+		this.connection.publish(feedName, Number(message).toString(), { qos: 0, retain: false }, function (err) {
+			if(err) console.log(err) 
+			else console.log(`Published: ${message}`)
+		});
 	}
 	unregister(res, feedName) {
 		feedName = MqttService.feed(this, feedName);
